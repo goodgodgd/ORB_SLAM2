@@ -19,15 +19,17 @@
 */
 
 
-#include<iostream>
-#include<algorithm>
-#include<fstream>
-#include<iomanip>
-#include<chrono>
+#include <iostream>
+#include <algorithm>
+#include <fstream>
+#include <iomanip>
+#include <chrono>
+#include <assert.h>
 
-#include<opencv2/core/core.hpp>
+#include <opencv2/core/core.hpp>
 
-#include<System.h>
+#include "System.h"
+#include "Output.h"
 
 using namespace std;
 
@@ -36,9 +38,9 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
 
 int main(int argc, char **argv)
 {
-    if(argc != 4)
+    if(argc != 6)
     {
-        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
+        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence loop_closing_on output_file" << endl;
         return 1;
     }
 
@@ -46,7 +48,11 @@ int main(int argc, char **argv)
     vector<string> vstrImageLeft;
     vector<string> vstrImageRight;
     vector<double> vTimestamps;
+    
+    cout << "main0" << endl;
     LoadImages(string(argv[3]), vstrImageLeft, vstrImageRight, vTimestamps);
+    cout << "main1" << endl;
+    ORB_SLAM2::Output::instance().set((atoi(argv[4]) != 0), argv[5]);
 
     const int nImages = vstrImageLeft.size();
 
@@ -122,7 +128,7 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
-    SLAM.SaveTrajectoryKITTI("CameraTrajectory.txt");
+    SLAM.SaveTrajectoryTUM(ORB_SLAM2::Output::instance().outfile);
 
     return 0;
 }
@@ -133,6 +139,11 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
     ifstream fTimes;
     string strPathTimeFile = strPathToSequence + "/times.txt";
     fTimes.open(strPathTimeFile.c_str());
+    if(!fTimes.is_open())
+    {
+    	cout << "cannot open time file: " << strPathTimeFile << endl;
+    	throw 1;
+    }
     while(!fTimes.eof())
     {
         string s;
@@ -146,6 +157,7 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
             vTimestamps.push_back(t);
         }
     }
+    cout << "time done " << vTimestamps.size() << endl;
 
     string strPrefixLeft = strPathToSequence + "/image_0/";
     string strPrefixRight = strPathToSequence + "/image_1/";

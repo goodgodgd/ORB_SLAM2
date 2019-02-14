@@ -28,6 +28,7 @@
 #include<opencv2/core/core.hpp>
 
 #include"System.h"
+#include "Output.h"
 
 using namespace std;
 
@@ -36,9 +37,9 @@ void LoadImages(const string &strSequence, vector<string> &vstrImageFilenames,
 
 int main(int argc, char **argv)
 {
-    if(argc != 4)
+    if(argc != 6)
     {
-        cerr << endl << "Usage: ./mono_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
+        cerr << endl << "Usage: ./mono_kitti path_to_vocabulary path_to_settings path_to_sequence loop_closing_on output_file" << endl;
         return 1;
     }
 
@@ -46,6 +47,8 @@ int main(int argc, char **argv)
     vector<string> vstrImageFilenames;
     vector<double> vTimestamps;
     LoadImages(string(argv[3]), vstrImageFilenames, vTimestamps);
+    
+    ORB_SLAM2::Output::instance().set((atoi(argv[4]) != 0), argv[5]);
 
     int nImages = vstrImageFilenames.size();
 
@@ -119,7 +122,7 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
-    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");    
+    SLAM.SaveKeyFrameTrajectoryTUM(ORB_SLAM2::Output::instance().outfile);
 
     return 0;
 }
@@ -129,6 +132,12 @@ void LoadImages(const string &strPathToSequence, vector<string> &vstrImageFilena
     ifstream fTimes;
     string strPathTimeFile = strPathToSequence + "/times.txt";
     fTimes.open(strPathTimeFile.c_str());
+    if(!fTimes.is_open())
+    {
+    	cout << "cannot open time file: " << strPathTimeFile << endl;
+    	throw 1;
+    }
+
     while(!fTimes.eof())
     {
         string s;

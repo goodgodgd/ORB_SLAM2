@@ -27,6 +27,7 @@
 #include<opencv2/core/core.hpp>
 
 #include<System.h>
+#include "Output.h"
 
 using namespace std;
 
@@ -35,9 +36,9 @@ void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageF
 
 int main(int argc, char **argv)
 {
-    if(argc != 5)
+    if(argc != 7)
     {
-        cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association" << endl;
+        cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association loop_closing_on output_file" << endl;
         return 1;
     }
 
@@ -47,6 +48,8 @@ int main(int argc, char **argv)
     vector<double> vTimestamps;
     string strAssociationFilename = string(argv[4]);
     LoadImages(strAssociationFilename, vstrImageFilenamesRGB, vstrImageFilenamesD, vTimestamps);
+    
+    ORB_SLAM2::Output::instance().set((atoi(argv[5]) != 0), argv[6]);
 
     // Check consistency in the number of images and depthmaps
     int nImages = vstrImageFilenamesRGB.size();
@@ -133,8 +136,8 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
-    SLAM.SaveTrajectoryTUM("CameraTrajectory.txt");
-    SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");   
+    SLAM.SaveTrajectoryTUM(ORB_SLAM2::Output::instance().outfile);
+    // SLAM.SaveKeyFrameTrajectoryTUM("KeyFrameTrajectory.txt");   
 
     return 0;
 }

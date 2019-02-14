@@ -21,7 +21,9 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include<vector>
+#include <vector>
+#include <unistd.h>
+#include <opencv2/opencv.hpp>
 
 #include "MapPoint.h"
 #include "Thirdparty/DBoW2/DBoW2/BowVector.h"
@@ -29,8 +31,6 @@
 #include "ORBVocabulary.h"
 #include "KeyFrame.h"
 #include "ORBextractor.h"
-
-#include <opencv2/opencv.hpp>
 
 namespace ORB_SLAM2
 {
