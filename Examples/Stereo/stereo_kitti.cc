@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::STEREO,true);
 
     // Vector for tracking time statistics
-    vector<float> vTimesTrack;
+    vector<double> vTimesTrack;
     vTimesTrack.resize(nImages);
 
     cout << endl << "-------" << endl;
@@ -97,8 +97,9 @@ int main(int argc, char **argv)
 #else
         std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
 #endif
-
+        // ELAPSED TIME
         double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+        elap_times.push_back(ttrack)
 
         vTimesTrack[ni]=ttrack;
 
@@ -118,7 +119,7 @@ int main(int argc, char **argv)
 
     // Tracking time statistics
     sort(vTimesTrack.begin(),vTimesTrack.end());
-    float totaltime = 0;
+    double totaltime = 0;
     for(int ni=0; ni<nImages; ni++)
     {
         totaltime+=vTimesTrack[ni];
@@ -128,7 +129,7 @@ int main(int argc, char **argv)
     cout << "mean tracking time: " << totaltime/nImages << endl;
 
     // Save camera trajectory
-    SLAM.SaveTrajectoryTUM(ORB_SLAM2::Output::instance().outfile);
+    SLAM.SaveTrajectoryTUM(ORB_SLAM2::Output::instance().outfile, vTimesTrack);
 
     return 0;
 }

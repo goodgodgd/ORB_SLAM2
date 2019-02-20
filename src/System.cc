@@ -319,7 +319,7 @@ void System::Shutdown()
         pangolin::BindToContext("ORB-SLAM2: Map Viewer");
 }
 
-void System::SaveTrajectoryTUM(const string &filename)
+void System::SaveTrajectoryTUM(const string &filename, std::vector<double> elapTimes)
 {
     cout << endl << "Saving camera trajectory to " << filename << " ..." << endl;
     if(mSensor==MONOCULAR)
@@ -348,8 +348,9 @@ void System::SaveTrajectoryTUM(const string &filename)
     list<ORB_SLAM2::KeyFrame*>::iterator lRit = mpTracker->mlpReferences.begin();
     list<double>::iterator lT = mpTracker->mlFrameTimes.begin();
     list<bool>::iterator lbL = mpTracker->mlbLost.begin();
+    cout << "saved poses: " << mpTracker->mlRelativeFramePoses.size() << ", elap times: " << elapTimes.size() << endl;
     for(list<cv::Mat>::iterator lit=mpTracker->mlRelativeFramePoses.begin(),
-        lend=mpTracker->mlRelativeFramePoses.end();lit!=lend;lit++, lRit++, lT++, lbL++)
+        lend=mpTracker->mlRelativeFramePoses.end(), int ti=0;lit!=lend;lit++, lRit++, lT++, lbL++, ti++)
     {
         if(*lbL)
             continue;
@@ -372,8 +373,14 @@ void System::SaveTrajectoryTUM(const string &filename)
         cv::Mat twc = -Rwc*Tcw.rowRange(0,3).col(3);
 
         vector<float> q = Converter::toQuaternion(Rwc);
-
-        f << setprecision(6) << *lT << " " <<  setprecision(9) << twc.at<float>(0) << " " << twc.at<float>(1) << " " << twc.at<float>(2) << " " << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << endl;
+        
+        // LookAtHere
+        f << setprecision(6) << *lT << " " <<  setprecision(9) 
+            << twc.at<float>(0) << " " << twc.at<float>(1) << " " << twc.at<float>(2) << " " 
+            << q[0] << " " << q[1] << " " << q[2] << " " << q[3] << " ";
+        if(ti < elapTimes.size())
+            f << elapTimes[ti] << " ";
+        f << endl;
     }
     f.close();
     cout << endl << "trajectory saved!" << endl;
