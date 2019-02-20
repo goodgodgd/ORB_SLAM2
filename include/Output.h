@@ -7,6 +7,8 @@ This file is added by Ian to control output of ORB-SLAM2
 
 #include <string>
 
+#define VO_BENCH_ON
+
 namespace ORB_SLAM2
 {
 

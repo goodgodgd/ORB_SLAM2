@@ -349,8 +349,9 @@ void System::SaveTrajectoryTUM(const string &filename, std::vector<double> elapT
     list<double>::iterator lT = mpTracker->mlFrameTimes.begin();
     list<bool>::iterator lbL = mpTracker->mlbLost.begin();
     cout << "saved poses: " << mpTracker->mlRelativeFramePoses.size() << ", elap times: " << elapTimes.size() << endl;
+    int ti=0;
     for(list<cv::Mat>::iterator lit=mpTracker->mlRelativeFramePoses.begin(),
-        lend=mpTracker->mlRelativeFramePoses.end(), int ti=0;lit!=lend;lit++, lRit++, lT++, lbL++, ti++)
+        lend=mpTracker->mlRelativeFramePoses.end();lit!=lend;lit++, lRit++, lT++, lbL++, ti++)
     {
         if(*lbL)
             continue;

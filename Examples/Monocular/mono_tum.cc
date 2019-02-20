@@ -93,8 +93,11 @@ int main(int argc, char **argv)
         std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
 #endif
 
-        double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+        double ttrack= std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(t2 - t1).count();
+        vTimesTrack[ni]=ttrack;
 
+#ifndef VO_BENCH_ON
+        ttrack= std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1).count();
         vTimesTrack[ni]=ttrack;
 
         // Wait to load the next frame
@@ -106,6 +109,7 @@ int main(int argc, char **argv)
 
         if(ttrack<T)
             usleep((T-ttrack)*1e6);
+#endif
     }
 
     // Stop all threads

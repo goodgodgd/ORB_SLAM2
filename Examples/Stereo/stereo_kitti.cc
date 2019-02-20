@@ -97,10 +97,12 @@ int main(int argc, char **argv)
 #else
         std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
 #endif
-        // ELAPSED TIME
-        double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
-        elap_times.push_back(ttrack)
 
+        double ttrack= std::chrono::duration_cast<std::chrono::duration<double, std::milli>>(t2 - t1).count();
+        vTimesTrack[ni]=ttrack;
+
+#ifndef VO_BENCH_ON
+        ttrack= std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1).count();
         vTimesTrack[ni]=ttrack;
 
         // Wait to load the next frame
@@ -112,6 +114,7 @@ int main(int argc, char **argv)
 
         if(ttrack<T)
             usleep((T-ttrack)*1e6);
+#endif
     }
 
     // Stop all threads
@@ -125,8 +128,8 @@ int main(int argc, char **argv)
         totaltime+=vTimesTrack[ni];
     }
     cout << "-------" << endl << endl;
-    cout << "median tracking time: " << vTimesTrack[nImages/2] << endl;
-    cout << "mean tracking time: " << totaltime/nImages << endl;
+    cout << "total frames: " << nImages << endl;
+    cout << "mean tracking time: " << totaltime/nImages << "ms" << endl;
 
     // Save camera trajectory
     SLAM.SaveTrajectoryTUM(ORB_SLAM2::Output::instance().outfile, vTimesTrack);
