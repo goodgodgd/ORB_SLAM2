@@ -5,6 +5,7 @@
 #--------------------------------------------------------------------------------------------
 
 # Camera calibration and distortion parameters (OpenCV) 
+
 Camera.fx: 435.2046959714599
 Camera.fy: 435.2046959714599
 Camera.cx: 367.4517211914062
@@ -40,7 +41,7 @@ LEFT.D: !!opencv-matrix
    rows: 1
    cols: 5
    dt: d
-   data:[-0.28340811, 0.07395907, 0.00019359, 1.76187114e-05, 0.0]
+   data: [-0.28340811, 0.07395907, 0.00019359, 1.76187114e-05, 0.0]
 LEFT.K: !!opencv-matrix
    rows: 3
    cols: 3
@@ -63,7 +64,7 @@ RIGHT.D: !!opencv-matrix
    rows: 1
    cols: 5
    dt: d
-   data:[-0.28368365, 0.07451284, -0.00010473, -3.555907e-05, 0.0]
+   data: [-0.28368365, 0.07451284, -0.00010473, -3.555907e-05, 0.0]
 RIGHT.K: !!opencv-matrix
    rows: 3
    cols: 3
@@ -106,7 +107,7 @@ ORBextractor.minThFAST: 7
 Viewer.KeyFrameSize: 0.05
 Viewer.KeyFrameLineWidth: 1
 Viewer.GraphLineWidth: 0.9
-Viewer.PointSize:2
+Viewer.PointSize: 2
 Viewer.CameraSize: 0.08
 Viewer.CameraLineWidth: 3
 Viewer.ViewpointX: 0

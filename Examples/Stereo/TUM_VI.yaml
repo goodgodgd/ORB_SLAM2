@@ -1,0 +1,81 @@
+%YAML:1.0
+Camera.RGB: 1
+Camera.bf: 53.85046630258022
+Camera.cx: 254.64689387916482
+Camera.cy: 256.4835490935692
+Camera.fps: 20.0
+Camera.fx: 533.340727445877
+Camera.fy: 533.2556495307942
+Camera.height: 512
+Camera.k1: 0.0
+Camera.k2: 0.0
+Camera.p1: 0.0
+Camera.p2: 0.0
+Camera.width: 512
+LEFT.D: !!opencv-matrix
+  cols: 1
+  data: [-0.05972430882700243, 0.17468739202093328, 0.000737218969875311, 0.000574074894976456]
+  dt: d
+  rows: 4
+LEFT.K: !!opencv-matrix
+  cols: 3
+  data: [533.340727445877, 0.0, 254.64689387916482, 0.0, 533.2556495307942, 256.4835490935692,
+    0.0, 0.0, 1.0]
+  dt: d
+  rows: 3
+LEFT.P: !!opencv-matrix
+  cols: 3
+  data: [146.28571428571428, 0.0, 256.0, 0.0, 146.28571428571428, 256.0, 0.0, 0.0,
+    1.0]
+  dt: d
+  rows: 3
+LEFT.R: !!opencv-matrix
+  cols: 3
+  data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+  dt: d
+  rows: 3
+LEFT.height: 512
+LEFT.width: 512
+LEFT.xi: 1.792187901303534
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 7
+ORBextractor.nFeatures: 500
+ORBextractor.nLevels: 8
+ORBextractor.scaleFactor: 1.2
+Omni: 1
+RIGHT.D: !!opencv-matrix
+  cols: 1
+  data: [-0.07693518083211431, 0.12590335598238764, 0.0016421936053305271, 0.0006230553630283544]
+  dt: d
+  rows: 4
+RIGHT.K: !!opencv-matrix
+  cols: 3
+  data: [520.2546241208013, 0.0, 252.24978846121377, 0.0, 520.1799003708908, 254.15045097300418,
+    0.0, 0.0, 1.0]
+  dt: d
+  rows: 3
+RIGHT.P: !!opencv-matrix
+  cols: 3
+  data: [146.28571428571428, 0.0, 256.0, 0.0, 146.28571428571428, 256.0, 0.0, 0.0,
+    1.0]
+  dt: d
+  rows: 3
+RIGHT.R: !!opencv-matrix
+  cols: 3
+  data: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]
+  dt: d
+  rows: 3
+RIGHT.height: 512
+RIGHT.width: 512
+RIGHT.xi: 1.7324175606483596
+ThDepth: 35
+Viewer.CameraLineWidth: 3
+Viewer.CameraSize: 0.08
+Viewer.GraphLineWidth: 0.9
+Viewer.KeyFrameLineWidth: 1
+Viewer.KeyFrameSize: 0.05
+Viewer.PointSize: 2
+Viewer.ViewpointF: 500
+Viewer.ViewpointX: 0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
