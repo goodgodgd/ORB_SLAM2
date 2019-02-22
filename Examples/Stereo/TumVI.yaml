@@ -25,7 +25,8 @@ LEFT.K: !!opencv-matrix
   rows: 3
 LEFT.P: !!opencv-matrix
   cols: 3
-  data: [256.0, 0.0, 256.0, 0.0, 256.0, 256.0, 0.0, 0.0, 1.0]
+  data: [182.85714285714286, 0.0, 256.0, 0.0, 182.85714285714286, 256.0, 0.0, 0.0,
+    1.0]
   dt: d
   rows: 3
 LEFT.R: !!opencv-matrix
@@ -36,8 +37,8 @@ LEFT.R: !!opencv-matrix
 LEFT.height: 512
 LEFT.width: 512
 LEFT.xi: 1.792187901303534
-ORBextractor.iniThFAST: 10
-ORBextractor.minThFAST: 3
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 7
 ORBextractor.nFeatures: 1200
 ORBextractor.nLevels: 8
 ORBextractor.scaleFactor: 1.2
@@ -55,7 +56,8 @@ RIGHT.K: !!opencv-matrix
   rows: 3
 RIGHT.P: !!opencv-matrix
   cols: 3
-  data: [256.0, 0.0, 256.0, 0.0, 256.0, 256.0, 0.0, 0.0, 1.0]
+  data: [182.85714285714286, 0.0, 256.0, 0.0, 182.85714285714286, 256.0, 0.0, 0.0,
+    1.0]
   dt: d
   rows: 3
 RIGHT.R: !!opencv-matrix
@@ -66,6 +68,8 @@ RIGHT.R: !!opencv-matrix
 RIGHT.height: 512
 RIGHT.width: 512
 RIGHT.xi: 1.7324175606483596
+RowOffset: 13
+ScaleTo8bit: 180
 ThDepth: 35
 Viewer.CameraLineWidth: 3
 Viewer.CameraSize: 0.08

@@ -186,7 +186,7 @@ public:
     static float mnMaxY;
 
     static bool mbInitialComputations;
-
+    static int mRowOffset;
 
 private:
 

@@ -30,6 +30,7 @@ namespace ORB_SLAM2
 
 long unsigned int Frame::nNextId=0;
 bool Frame::mbInitialComputations=true;
+int Frame::mRowOffset = 0;
 float Frame::cx, Frame::cy, Frame::fx, Frame::fy, Frame::invfx, Frame::invfy;
 float Frame::mnMinX, Frame::mnMinY, Frame::mnMaxX, Frame::mnMaxY;
 float Frame::mfGridElementWidthInv, Frame::mfGridElementHeightInv;
@@ -487,8 +488,8 @@ void Frame::ComputeStereoMatches()
         const cv::KeyPoint &kp = mvKeysRight[iR];
         const float &kpY = kp.pt.y;
         const float r = 2.0f*mvScaleFactors[mvKeysRight[iR].octave];
-        int maxr = ceil(kpY+r) + 13;
-        int minr = floor(kpY-r) + 13;
+        int maxr = ceil(kpY+r) + mRowOffset;
+        int minr = floor(kpY-r) + mRowOffset;
         maxr = crop(maxr, 0, nRows-1);
         minr = crop(minr, 0, nRows-1);
 

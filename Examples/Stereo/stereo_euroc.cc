@@ -91,6 +91,10 @@ int main(int argc, char **argv)
     int rows_r = fsSettings["RIGHT.height"];
     int cols_r = fsSettings["RIGHT.width"];
 
+    ORB_SLAM2::Frame::mRowOffset = fsSettings["RowOffset"];
+    float scaleTo8bit = float(fsSettings["ScaleTo8bit"]);
+    cout << "Row offset between left and right: " << ORB_SLAM2::Frame::mRowOffset << endl;
+
     if(K_l.empty() || K_r.empty() || P_l.empty() || P_r.empty() || R_l.empty() || R_r.empty() || D_l.empty() || D_r.empty() ||
             rows_l==0 || rows_r==0 || cols_l==0 || cols_r==0)
     {
@@ -113,8 +117,6 @@ int main(int argc, char **argv)
         cv::initUndistortRectifyMap(K_l,D_l,R_l,P_l.rowRange(0,3).colRange(0,3),cv::Size(cols_l,rows_l),CV_32F,M1l,M2l);
         cv::initUndistortRectifyMap(K_r,D_r,R_r,P_r.rowRange(0,3).colRange(0,3),cv::Size(cols_r,rows_r),CV_32F,M1r,M2r);
     }
-    
-
 
     const int nImages = vstrImageLeft.size();
 
@@ -128,18 +130,22 @@ int main(int argc, char **argv)
     cout << endl << "-------" << endl;
     cout << "Start processing sequence ..." << endl;
     cout << "Images in the sequence: " << nImages << endl << endl;
-    char filename[50];
 
     // Main loop
     cv::Mat imLeft, imRight, imLeftRect, imRightRect;
+    // char filename[50];
     for(int ni=0; ni<nImages; ni++)
     {
         // Read left and right images from file
         imLeft = cv::imread(vstrImageLeft[ni],CV_LOAD_IMAGE_UNCHANGED);
         imRight = cv::imread(vstrImageRight[ni],CV_LOAD_IMAGE_UNCHANGED);
-        imLeft.convertTo(imLeft, CV_8U, 1./200);
-        imRight.convertTo(imRight, CV_8U, 1./200);
-        // printf("read image type: %d, %d | %d, %d\n", imLeft.type(), imRight.type(), CV_16UC1, CV_8UC1);
+
+        if(scaleTo8bit > 1.f && imLeft.type()==2)
+        {
+            cout << "16bit images are scaled by 1./" << scaleTo8bit << endl;
+            imLeft.convertTo(imLeft, CV_8U, 1.f/scaleTo8bit);
+            imRight.convertTo(imRight, CV_8U, 1.f/scaleTo8bit);
+        }
 
         if(imLeft.empty())
         {
