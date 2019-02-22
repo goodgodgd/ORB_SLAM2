@@ -26,6 +26,7 @@
 #include <chrono>
 
 #include <opencv2/core/core.hpp>
+#include <opencv2/ccalib/omnidir.hpp>
 
 #include "System.h"
 #include "Output.h"
@@ -97,13 +98,15 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    int fisheye = fsSettings["Fisheye"];
+    int omni = fsSettings["Omni"];
     cv::Mat M1l,M2l,M1r,M2r;
-    if(fisheye==1)
+    if(omni==1)
     {
-        std::cout << "undistort fisheye camera" << std::endl;
-        cv::fisheye::initUndistortRectifyMap(K_l,D_l,R_l,P_l.rowRange(0,3).colRange(0,3),cv::Size(cols_l,rows_l),CV_32F,M1l,M2l);
-        cv::fisheye::initUndistortRectifyMap(K_r,D_r,R_r,P_r.rowRange(0,3).colRange(0,3),cv::Size(cols_r,rows_r),CV_32F,M1r,M2r);
+        std::cout << "undistort omnidir camera" << std::endl;
+        double xi_l = fsSettings["LEFT.xi"];
+        double xi_r = fsSettings["RIGHT.xi"];
+        cv::omnidir::initUndistortRectifyMap(K_l,D_l,xi_l,R_l,P_l,cv::Size(cols_l,rows_l),CV_32F,M1l,M2l,cv::omnidir::RECTIFY_PERSPECTIVE);
+        cv::omnidir::initUndistortRectifyMap(K_r,D_r,xi_r,R_r,P_r,cv::Size(cols_r,rows_r),CV_32F,M1r,M2r,cv::omnidir::RECTIFY_PERSPECTIVE);
     }
     else
     {
@@ -125,6 +128,7 @@ int main(int argc, char **argv)
     cout << endl << "-------" << endl;
     cout << "Start processing sequence ..." << endl;
     cout << "Images in the sequence: " << nImages << endl << endl;
+    char filename[50];
 
     // Main loop
     cv::Mat imLeft, imRight, imLeftRect, imRightRect;
@@ -156,6 +160,10 @@ int main(int argc, char **argv)
 
         cv::remap(imLeft,imLeftRect,M1l,M2l,cv::INTER_LINEAR);
         cv::remap(imRight,imRightRect,M1r,M2r,cv::INTER_LINEAR);
+        // sprintf(filename, "/data/output/dump/L%05d.png", ni);
+        // cv::imwrite(filename, imLeftRect);
+        // sprintf(filename, "/data/output/dump/R%05d.png", ni);
+        // cv::imwrite(filename, imRightRect);
 
         double tframe = vTimeStamp[ni];
 

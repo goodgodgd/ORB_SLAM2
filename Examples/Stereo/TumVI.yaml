@@ -25,8 +25,7 @@ LEFT.K: !!opencv-matrix
   rows: 3
 LEFT.P: !!opencv-matrix
   cols: 3
-  data: [146.28571428571428, 0.0, 256.0, 0.0, 146.28571428571428, 256.0, 0.0, 0.0,
-    1.0]
+  data: [256.0, 0.0, 256.0, 0.0, 256.0, 256.0, 0.0, 0.0, 1.0]
   dt: d
   rows: 3
 LEFT.R: !!opencv-matrix
@@ -37,9 +36,9 @@ LEFT.R: !!opencv-matrix
 LEFT.height: 512
 LEFT.width: 512
 LEFT.xi: 1.792187901303534
-ORBextractor.iniThFAST: 20
-ORBextractor.minThFAST: 7
-ORBextractor.nFeatures: 500
+ORBextractor.iniThFAST: 10
+ORBextractor.minThFAST: 3
+ORBextractor.nFeatures: 1200
 ORBextractor.nLevels: 8
 ORBextractor.scaleFactor: 1.2
 Omni: 1
@@ -56,8 +55,7 @@ RIGHT.K: !!opencv-matrix
   rows: 3
 RIGHT.P: !!opencv-matrix
   cols: 3
-  data: [146.28571428571428, 0.0, 256.0, 0.0, 146.28571428571428, 256.0, 0.0, 0.0,
-    1.0]
+  data: [256.0, 0.0, 256.0, 0.0, 256.0, 256.0, 0.0, 0.0, 1.0]
   dt: d
   rows: 3
 RIGHT.R: !!opencv-matrix
