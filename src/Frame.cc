@@ -23,6 +23,8 @@
 #include "ORBmatcher.h"
 #include <thread>
 
+#define crop(x, l, h) ( ((x)<l) ? l : ((x)>=h) ? h : (x) )
+
 namespace ORB_SLAM2
 {
 
@@ -485,8 +487,10 @@ void Frame::ComputeStereoMatches()
         const cv::KeyPoint &kp = mvKeysRight[iR];
         const float &kpY = kp.pt.y;
         const float r = 2.0f*mvScaleFactors[mvKeysRight[iR].octave];
-        const int maxr = ceil(kpY+r);
-        const int minr = floor(kpY-r);
+        int maxr = ceil(kpY+r) + 13;
+        int minr = floor(kpY-r) + 13;
+        maxr = crop(maxr, 0, nRows-1);
+        minr = crop(minr, 0, nRows-1);
 
         for(int yi=minr;yi<=maxr;yi++)
             vRowIndices[yi].push_back(iR);
@@ -500,7 +504,6 @@ void Frame::ComputeStereoMatches()
     // For each left keypoint search a match in the right image
     vector<pair<int, int> > vDistIdx;
     vDistIdx.reserve(N);
-
     for(int iL=0; iL<N; iL++)
     {
         const cv::KeyPoint &kpL = mvKeys[iL];

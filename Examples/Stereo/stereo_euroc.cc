@@ -137,6 +137,9 @@ int main(int argc, char **argv)
         // Read left and right images from file
         imLeft = cv::imread(vstrImageLeft[ni],CV_LOAD_IMAGE_UNCHANGED);
         imRight = cv::imread(vstrImageRight[ni],CV_LOAD_IMAGE_UNCHANGED);
+        imLeft.convertTo(imLeft, CV_8U, 1./200);
+        imRight.convertTo(imRight, CV_8U, 1./200);
+        // printf("read image type: %d, %d | %d, %d\n", imLeft.type(), imRight.type(), CV_16UC1, CV_8UC1);
 
         if(imLeft.empty())
         {
