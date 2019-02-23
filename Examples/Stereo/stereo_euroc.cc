@@ -142,7 +142,7 @@ int main(int argc, char **argv)
 
         if(scaleTo8bit > 1.f && imLeft.type()==2)
         {
-            cout << "16bit images are scaled by 1./" << scaleTo8bit << endl;
+            // cout << "16bit images are scaled by 1./" << scaleTo8bit << endl;
             imLeft.convertTo(imLeft, CV_8U, 1.f/scaleTo8bit);
             imRight.convertTo(imRight, CV_8U, 1.f/scaleTo8bit);
         }
