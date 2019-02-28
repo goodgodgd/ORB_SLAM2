@@ -133,6 +133,7 @@ int main(int argc, char **argv)
 
     // Main loop
     cv::Mat imLeft, imRight, imLeftRect, imRightRect;
+    int skip = 0;
     // char filename[50];
     for(int ni=0; ni<nImages; ni++)
     {
@@ -151,15 +152,23 @@ int main(int argc, char **argv)
         {
             cerr << endl << "Failed to load image at: "
                  << string(vstrImageLeft[ni]) << endl;
-            return 1;
+            if(++skip > 10)
+                return 1;
+            else
+                continue;
         }
 
         if(imRight.empty())
         {
             cerr << endl << "Failed to load image at: "
                  << string(vstrImageRight[ni]) << endl;
-            return 1;
+            if(++skip > 10)
+                return 1;
+            else
+                continue;
         }
+        
+        skip = 0;
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
